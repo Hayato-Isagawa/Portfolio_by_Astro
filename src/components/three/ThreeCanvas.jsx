@@ -1,10 +1,9 @@
-// src/components/ThreeCanvas.jsx
 import { useEffect } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 
-function ThreeCanvas() {
+const ThreeCanvas = () => {
   useEffect(() => {
     const canvas = document.createElement("canvas");
     canvas.width = window.innerWidth;
@@ -25,12 +24,12 @@ function ThreeCanvas() {
     });
 
     const camera = new THREE.PerspectiveCamera(
-      32,
+      75,
       window.innerWidth / window.innerHeight,
       0.1,
       100
     );
-    camera.position.set(0, 0, 10);
+    camera.position.set(10, -10, 10);
 
     const controls = new OrbitControls(camera, canvas);
     const geometry = new THREE.SphereGeometry();
@@ -73,7 +72,7 @@ function ThreeCanvas() {
     // scene.add(hemisphereLight);
 
     const hemiHelper = new THREE.HemisphereLightHelper(hemisphereLight);
-    scene.add(hemiHelper);
+    // scene.add(hemiHelper);
 
     const planeGeo = new THREE.PlaneGeometry(10, 10);
     const plane = new THREE.Mesh(planeGeo, material);
@@ -101,6 +100,6 @@ function ThreeCanvas() {
   }, []);
 
   return null; // 直接DOMに追加するので、JSXとして何も描画しない
-}
+};
 
 export default ThreeCanvas;
