@@ -1,35 +1,61 @@
-import { THREE, OrbitControls, generateCanvas } from "./Setting.js";
+import { useEffect } from "react";
+import { THREE, OrbitControls, generateCanvas, GLTFLoader } from "./Setting.js";
 
-const canvas = generateCanvas();
-let renderer, scene, camera, controls;
+const ThreeCanvas01 = () => {
+  useEffect(() => {
+    const canvas = generateCanvas();
+    let renderer, scene, camera, controls;
 
-const init = () => {
-  renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: true,
-  });
-  scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(32, window.innerWidth / window.innerHeight);
-  camera.position.set(0, 0, 10);
-  controls = new OrbitControls(camera, canvas);
+    renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+    });
+    renderer.shadowMap.enabled = true;
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(
+      32,
+      window.innerWidth / window.innerHeight
+    );
+    camera.position.set(0, 0, 10);
+    controls = new OrbitControls(camera, canvas);
 
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(1, 1, 1);
-  scene.add(directionalLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(1, 1, 1);
+    scene.add(directionalLight);
 
-  const sphere = new THREE.SphereGeometry();
-  const material = new THREE.MeshStandardMaterial();
-  const mesh = new THREE.Mesh(sphere, material);
-  scene.add(mesh);
+    directionalLight.castShadow = true;
 
-  render();
-}
+    const sphere = new THREE.SphereGeometry();
+    const material = new THREE.MeshStandardMaterial();
+    const mesh = new THREE.Mesh(sphere, material);
+    // scene.add(mesh);
 
-const render = () => {
-  requestAnimationFrame(render);
-  renderer.render(scene, camera);
-  controls.update();
+    const loader = new GLTFLoader();
+    loader.load("/src/assets/three/Catalina_Clay_Product.glb", (gltf) => {
+      const model = gltf.scene;
+      model.traverse((obj) => {
+        if (obj.isMesh) {
+          console.log(obj);
+          obj.castShadow = true;
+          obj.receiveShadow = true;
+        }
+      });
+      scene.add(model);
+    });
+
+    const render = () => {
+      requestAnimationFrame(render);
+      renderer.render(scene, camera);
+      controls.update();
+    };
+
+    render();
+
+    return () => {
+      document.body.removeChild(canvas);
+    };
+  }, []);
+  return null;
 };
 
-init();
-
+export default ThreeCanvas01;
