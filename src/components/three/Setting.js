@@ -101,6 +101,11 @@ class CreateParticles {
     }
     this.particles.attributes.position.needsUpdate = true;
   }
+
+  updateTexture(newTexture) {
+    this.particleSystem.material.map = newTexture;
+    this.particleSystem.material.needsUpdate = true;
+  }
 }
 
 export {

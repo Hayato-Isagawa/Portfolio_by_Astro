@@ -17,7 +17,7 @@ const ThreeCanvas = () => {
     const scene = new THREE.Scene();
 
     const loader = new RGBELoader();
-    loader.load("/src/assets/three/three.hdr", (texture) => {
+    loader.load("/src/assets/three/hdr/three.hdr", (texture) => {
       texture.mapping = THREE.EquirectangularReflectionMapping;
       scene.background = texture;
       scene.environment = texture;

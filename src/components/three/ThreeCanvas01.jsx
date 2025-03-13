@@ -34,7 +34,7 @@ const ThreeCanvas01 = () => {
     // scene.add(mesh);
 
     const loader = new GLTFLoader();
-    loader.load("/src/assets/three/Catalina_Clay_Product.glb", (gltf) => {
+    loader.load("/src/assets/three/glb/Catalina_Clay_Product.glb", (gltf) => {
       const model = gltf.scene;
       console.log(gltf);
       model.traverse((obj) => {
