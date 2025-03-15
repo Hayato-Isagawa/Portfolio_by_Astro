@@ -7,9 +7,11 @@ import { BoxGeometry } from "three/src/geometries/BoxGeometry";
 import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial";
 import { Mesh } from "three/src/objects/Mesh";
 import { MathUtils } from "three/src/math/MathUtils";
+import { Vector2 } from "three/src/math/Vector2.js";
 
 class Canvas {
   constructor(container) {
+    this.mouse = new Vector2(0, 0);
     this.w = container.clientWidth;
     this.h = container.clientHeight;
 
@@ -23,27 +25,27 @@ class Canvas {
       return;
     }
 
-    this.camera = new PerspectiveCamera(60, this.w / this.h, 1, 10);
-    this.camera.position.z = 3;
+    const fov = 60;
+    const fovRad = (fov / 2) * (Math.PI / 180);
+    const halfHeight = this.h / 2;
+    const dist = halfHeight / Math.tan(fovRad);
 
-    // const fov = 60;
-    // const fovRad = (fov / 2) * (Math.PI / 180);
-    // const halfHeight = this.h / 2;
-    // const dist = halfHeight / Math.tan(fovRad);
-
-    // this.camera = new PerspectiveCamera(fov, this.w / this.h, 1, dist * 2);
-    // this.camera.position.z = dist;
+    this.camera = new PerspectiveCamera(fov, this.w / this.h, 1, dist * 2);
+    this.camera.position.z = dist;
 
     this.scene = new Scene();
 
-    this.light = new PointLight(0x00ffff);
-    this.light.position.set(2, 2, 2);
-    // this.light.position.set(400, 400, 400);
+    this.light = new PointLight(
+      0x00ffff,
+      100, // 光の強度（intensity）
+      0, // 光の届く距離（distance）
+      1 // 光の減衰率（decay）
+    );
+    this.light.position.set(0, 0, 400);
 
     this.scene.add(this.light);
 
-    const geo = new BoxGeometry(1, 1, 1);
-    // const geo = new BoxGeometry(300, 300, 300);
+    const geo = new BoxGeometry(300, 300, 300);
     const mat = new MeshLambertMaterial({ color: 0xffffff });
     this.mesh = new Mesh(geo, mat);
     // ラジアンを使用した指定方法
@@ -69,8 +71,8 @@ class Canvas {
     // this.mesh.rotation.y += 0.01;
 
     // 時間で制御
-    // this.mesh.rotation.x = sec * (Math.PI / 4);
-    // this.mesh.rotation.y = sec * (Math.PI / 4);
+    this.mesh.rotation.x = sec * (Math.PI / 4);
+    this.mesh.rotation.y = sec * (Math.PI / 4);
 
     // this.mesh.position.x = Math.cos(sec);
     // this.mesh.position.y = Math.sin(sec);
@@ -79,6 +81,15 @@ class Canvas {
     // this.mesh.scale.y = Math.sin(sec * 0.1);
 
     this.renderer.render(this.scene, this.camera);
+  }
+  mouseMove(x, y) {
+    // マウス座標を-1から1の範囲に正規化
+    this.mouse.x = x - this.w / 2;
+    this.mouse.y = -y + this.h / 2;
+
+    // ライトの移動範囲を適切なスケールに調整（例：-2から2の範囲）
+    this.light.position.x = this.mouse.x;
+    this.light.position.y = this.mouse.y;
   }
   dispose() {
     this.isRendering = false;
