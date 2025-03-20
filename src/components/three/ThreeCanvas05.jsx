@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import Canvas from "./class/Setting01";
+import Canvas from "./class/Setting02";
 
-const ThreeCanvas04 = () => {
+const ThreeCanvas05 = () => {
   const containerRef = useRef(null);
   const canvasInstance = useRef(null);
 
@@ -11,18 +11,8 @@ const ThreeCanvas04 = () => {
     }
 
     if (!canvasInstance.current) {
-      canvasInstance.current = new Canvas(
-        containerRef.current,
-      );
+      canvasInstance.current = new Canvas(containerRef.current);
     }
-
-    window.addEventListener("mousemove", (e) => {
-      canvasInstance.current.mouseMoved(e.clientX, e.clientY);
-    });
-
-    window.addEventListener("scroll", (e) => {
-      canvasInstance.current.scrolled(window.scrollY);
-    });
 
     return () => {
       if (canvasInstance.current) {
@@ -37,4 +27,4 @@ const ThreeCanvas04 = () => {
   );
 };
 
-export default ThreeCanvas04;
+export default ThreeCanvas05;

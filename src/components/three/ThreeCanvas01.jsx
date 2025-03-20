@@ -1,5 +1,10 @@
 import { useEffect } from "react";
-import { THREE, OrbitControls, generateCanvas, GLTFLoader } from "./Setting.js";
+import {
+  THREE,
+  OrbitControls,
+  generateCanvas,
+  GLTFLoader,
+} from "./class/Setting.js";
 
 const ThreeCanvas01 = () => {
   useEffect(() => {

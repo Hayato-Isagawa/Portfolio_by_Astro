@@ -5,7 +5,7 @@ import {
   generateCanvas,
   GLTFLoader,
   RGBELoader,
-} from "./Setting.js";
+} from "./class/Setting.js";
 
 const ThreeCanvas02 = () => {
   useEffect(() => {

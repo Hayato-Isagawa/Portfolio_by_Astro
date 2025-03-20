@@ -1,8 +1,35 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import ThreeCanvas04 from '../../components/three/ThreeCanvas04.jsx';
+import Layout from "../../layouts/Layout.astro";
+import ThreeCanvas04 from "../../components/three/ThreeCanvas04.jsx";
 ---
 
 <Layout>
+  <div id="scrollContainer">
+    <h1 id="scrollContainer__heading1">
+      <span>Three.js</span>
+      <span>Three.js</span>
+      <span>Three.js</span>
+    </h1>
     <ThreeCanvas04 client:only="react" />
+  </div>
 </Layout>
+
+<style>
+  #scrollContainer {
+    height: 200%;
+    width: 100%;
+
+  }
+  #scrollContainer__heading1 {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 7em;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-shadow: 0 0 20px #ffffff;
+    padding: 20px;
+    margin: 0;
+  }
+</style>

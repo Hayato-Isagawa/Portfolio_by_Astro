@@ -6,7 +6,7 @@ import {
   GLTFLoader,
   RGBELoader,
   CreateParticles,
-} from "./Setting.js";
+} from "./class/Setting.js";
 
 const ThreeCanvas02 = () => {
   useEffect(() => {
