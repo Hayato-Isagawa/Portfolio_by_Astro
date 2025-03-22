@@ -14,6 +14,18 @@ const ThreeCanvas05 = () => {
       canvasInstance.current = new Canvas(containerRef.current);
     }
 
+    window.addEventListener('mousemove', e => {
+      canvasInstance.current.mouseMoved(e.clientX, e.clientY)
+    })
+
+    window.addEventListener('mousedown', e => {
+      canvasInstance.current.mousePressed(e.clientX, e.clientY)
+    })
+
+    window.addEventListener('mouseup', e => {
+      canvasInstance.current.mouseReleased(e.clientX, e.clientY)
+    })
+
     return () => {
       if (canvasInstance.current) {
         canvasInstance.current.dispose();
